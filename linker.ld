@@ -1,10 +1,26 @@
-ENTRY(loader)
+ENTRY(_start)
 
 . = 0x00100000;
 
 SECTIONS {
         _text_start = .;
-        .text ALIGN(0x1000): {
+        .text BLOCK(4K) : ALIGN(4K) {
+                *(.multiboot)
                 *(.text)
         }
+        .rodata BLOCK(4K) : ALIGN(4K) {
+		*(.rodata)
+        }
+        
+        .data BLOCK(4K) : ALIGN(4K)
+	{
+		*(.data)
+	}
+	
+	.bss BLOCK(4K) : ALIGN(4K)
+	{
+		*(COMMON)
+		*(.bss)
+		*(.bootstrap_stack)
+	}
 }
