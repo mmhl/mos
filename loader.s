@@ -26,6 +26,7 @@ stack_top:
 .type _start, @function
 _start:
         movl $stack_top, %esp #setup stack
-        #call kmain # c-code entry point
+        mov $0xC0C0C0, %eax
+        call kmain # c-code entry point
         cli
         hlt
