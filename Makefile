@@ -4,14 +4,14 @@ CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
 	 -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c 
 LINKER_SCRIPT= linker.ld
 LDFLAGS = -T $(LINKER_SCRIPT) -melf_i386
-AS = asm
+AS = nasm
 ASFLAGS = -f elf
 
 
 all: kernel
 
 kernel: $(OBJECTS)
-	echo "Linking " $(OBJECTS)
+	@echo Linking  $(OBJECTS)
 	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
 
 iso: kernel.elf
@@ -29,9 +29,11 @@ iso: kernel.elf
 
 
 
-$%.o: $%.c
+%.o: %.c
+	@echo Compiling...
 	$(CC) $(CFLAGS) $< -o $@
 %.o: %.s
+	@echo Assembling...
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:

@@ -4,7 +4,26 @@ ENTRY(loader)
 
 SECTIONS {
         _text_start = .;
-        .text ALIGN(0x1000): {
+        .text : {
                 *(.text)
         }
+        . = ALIGN(4096);
+
+        _rodata_start = .;
+        .rodata : {
+                *.(text)
+        }
+        . = ALIGN(4096);
+
+        _data_start = .;
+        .data : {
+                *(.data)
+        }
+        . = ALIGN(4096);
+
+        _bss_start = .;
+        .bss : {
+                *(.bss)
+        }
+        . = ALIGN(4096);
 }
