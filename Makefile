@@ -1,40 +1,19 @@
-OBJECTS = loader.o kmain.o
-CC = gcc
-CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	 -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c 
-LINKER_SCRIPT= linker.ld
-LDFLAGS = -T $(LINKER_SCRIPT) -melf_i386
-AS = nasm
-ASFLAGS = -f elf
+TARGET=i686-elf
+CC= $(TARGET)-gcc
+AS= $(TARGET)-as
+CFLAGS= -ffreestanding -nostdlib -lgcc -std=c11
+OUTPUT= kernel.elf
+LINKER_SCRIPT=linker.ld
 
+all: kernel.elf
 
-all: kernel
-
-kernel: $(OBJECTS)
-	@echo Linking  $(OBJECTS)
-	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
-
-iso: kernel.elf
-	mv -v kernel.elf out/boot/kernel.elf
-	genisoimage -R \
-		    -b boot/grub/stage2_eltorito \
-		    -no-emul-boot \
-		    -boot-load-size 4 \
-		    -A mOS \
-		    -input-charset utf8 \
-		    -quiet \
-		    -boot-info-table \
-		    -o bochs/mos.iso \
-		    out
-
-
-
+kernel.elf: kmain.o loader.o vga.o
+	$(CC) -T $(LINKER_SCRIPT) $^ -o $@ $(CFLAGS)
 %.o: %.c
-	@echo Compiling...
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) -c $? -o $@ $(CFLAGS)
 %.o: %.s
-	@echo Assembling...
-	$(AS) $(ASFLAGS) $< -o $@
+	$(AS) $? -o $@
 
+.PHONY : clean
 clean:
-	rm -rf *.o out/boot/kernel.elf bochs/mos.iso
+	rm -Rf kernel.elf *.o

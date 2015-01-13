@@ -1,29 +1,26 @@
-ENTRY(loader)
+ENTRY(_start)
 
 . = 0x00100000;
 
 SECTIONS {
         _text_start = .;
-        .text : {
+        .text BLOCK(4K) : ALIGN(4K) {
+                *(.multiboot)
                 *(.text)
         }
-        . = ALIGN(4096);
-
-        _rodata_start = .;
-        .rodata : {
-                *.(text)
+        .rodata BLOCK(4K) : ALIGN(4K) {
+		*(.rodata)
         }
-        . = ALIGN(4096);
-
-        _data_start = .;
-        .data : {
-                *(.data)
-        }
-        . = ALIGN(4096);
-
-        _bss_start = .;
-        .bss : {
-                *(.bss)
-        }
-        . = ALIGN(4096);
+        
+        .data BLOCK(4K) : ALIGN(4K)
+	{
+		*(.data)
+	}
+	
+	.bss BLOCK(4K) : ALIGN(4K)
+	{
+		*(COMMON)
+		*(.bss)
+		*(.bootstrap_stack)
+	}
 }
