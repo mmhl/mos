@@ -7,4 +7,5 @@
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 void vga_early_init();
+void vga_clear();
 #endif
