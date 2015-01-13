@@ -13,6 +13,7 @@ size_t term_col;
 uint16_t *term_buf;
 
 
+// GRUB dropped us to protected mode 
 void kmain() {
         vga_early_init();
         while(1) {
