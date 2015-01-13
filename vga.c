@@ -4,6 +4,10 @@
 #include "vga_colors.h"
 #include "outb.h"
 
+/*
+ * TODO: Fix this. This is not a place for cursors and stuff. 
+ * Rather place here control CRTC code, and stuff...
+ */
 uint16_t *vga_mem;
 static const uint16_t const *vga_base_addr;
 
