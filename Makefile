@@ -7,7 +7,7 @@ LINKER_SCRIPT=linker.ld
 
 all: kernel.elf
 
-kernel.elf: kmain.o loader.o
+kernel.elf: kmain.o loader.o vga.o
 	$(CC) -T $(LINKER_SCRIPT) $^ -o $@ $(CFLAGS)
 %.o: %.c
 	$(CC) -c $? -o $@ $(CFLAGS)
