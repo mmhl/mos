@@ -9,7 +9,7 @@ all: kernel.elf
 
 kernel.elf: kmain.o loader.o vga.o
 	$(CC) -T $(LINKER_SCRIPT) $^ -o $@ $(CFLAGS)
-%.o: %.c
+%.o: %.c %.h
 	$(CC) -c $? -o $@ $(CFLAGS)
 %.o: %.s
 	$(AS) $? -o $@
