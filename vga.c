@@ -5,9 +5,8 @@
 #include "outb.h"
 
 static struct fb_char *framebuffer; /*This is framebuffer, it points directly at VGA base address */
-static char banner[6] = "Hello\0";
 /*
- * TODO: Fix this. This is not a place for cursors and stuff. 
+ * TODO: Fix this. This is not a place for cursors and stuff.
  * Rather place here control CRTC code, and stuff...
  */
 uint16_t *vga_mem;
@@ -44,7 +43,7 @@ void vga_clear() {
 void vga_putch_at(unsigned char ch, unsigned short y, unsigned short x) {
 	struct fb_char chr;
 	chr.ch = (uint8_t)ch;
-	chr.attr = VGA_COLOR(VGA_WHITE, VGA_BLACK);
+	chr.attr = VGA_COLOR(VGA_CYAN, VGA_WHITE);
 	framebuffer[y*VGA_WIDTH+x] = chr;
 }
 
