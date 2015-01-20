@@ -13,10 +13,21 @@
 #define VGA_POSITION_MEM(y, x) ((VGA_MEM_BASE + ((y*VGA_WIDTH)+x))) /* Calculate address of given y and x parameters */
 #define VGA_POSITION_OFFSET(y, x) ((y*VGA_WIDTH)+x)
 
+/*
+ * This is layout for iomem VGA framebuffer. first byte is a char, second is attribute
+ */
+struct fb_char {
+	uint8_t ch;
+	uint8_t attr;
+} __attribute__((packed));
+
+#define FB_CHAR_DEFAULT_ATTR ((VGA_COLOR(VGA_BLACK, VGA_WHITE)))
+
 void vga_early_init();
 void vga_clear();
 void vga_set_cursor(unsigned short row, unsigned short column);
 void vga_putch_at(unsigned char ch, unsigned short y, unsigned short x);
+void vga_puts(const char *str, int len, unsigned short y, unsigned short x);
 
 
 #endif
