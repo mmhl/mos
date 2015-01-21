@@ -37,9 +37,9 @@ void vga_early_init() {
 void vga_clear() {
     uint8_t color = VGA_COLOR(VGA_BLACK, VGA_WHITE);
     for(size_t y = 0; y < VGA_HEIGHT; y++) {
-            for(size_t x = 0; x < VGA_WIDTH; x++) {
-                    vga_putch_at(' ', y , x);
-            }
+        for(size_t x = 0; x < VGA_WIDTH; x++) {
+            vga_putch_at(' ', y , x);
+        }
     }
 }
 
