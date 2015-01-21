@@ -5,6 +5,7 @@
 #include "outb.h"
 
 static struct fb_char *framebuffer; /*This is framebuffer, it points directly at VGA base address */
+static const char banner[] = "Hello World\0";
 /*
  * TODO: Fix this. This is not a place for cursors and stuff.
  * Rather place here control CRTC code, and stuff...
@@ -29,6 +30,8 @@ void vga_early_init() {
 		framebuffer = (struct fb_char *)VGA_MEM_BASE;
         vga_cursor_reset();
         vga_clear();
+        vga_puts(banner, 12, 0, 0);
+        vga_puts("DUPA\0", 5, 2, 2);
 }
 
 void vga_clear() {
