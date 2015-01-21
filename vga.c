@@ -14,33 +14,33 @@ uint16_t *vga_mem;
 static const uint16_t const *vga_base_addr;
 
 static void vga_cursor_reset() {
-        vga_set_cursor(0, 0);
+    vga_set_cursor(0, 0);
 }
 void vga_set_cursor(unsigned short row, unsigned short column) {
-        unsigned short position = (row*80) + column; // this will surely overflow, FIX IT!
+    unsigned short position = (row*80) + column; // this will surely overflow, FIX IT!
 
-        outb(VGA_COMMAND_PORT, 0x0F); //Set vertical blanking register command
-        outb(VGA_DATA_PORT, position & 0xFF);
-        outb(VGA_COMMAND_PORT, 0x0E); // Horizontal
-        outb(VGA_DATA_PORT, (position >> 8) & 0x0F);
+    outb(VGA_COMMAND_PORT, 0x0F); //Set vertical blanking register command
+    outb(VGA_DATA_PORT, position & 0xFF);
+    outb(VGA_COMMAND_PORT, 0x0E); // Horizontal
+    outb(VGA_DATA_PORT, (position >> 8) & 0x0F);
 }
 void vga_early_init() {
-        vga_mem = (uint16_t *)VGA_MEM_BASE;
-        vga_base_addr = (uint16_t *)VGA_MEM_BASE;
-		framebuffer = (struct fb_char *)VGA_MEM_BASE;
-        vga_cursor_reset();
-        vga_clear();
-        vga_puts(banner, 12, 0, 0);
-        vga_puts("DUPA\0", 5, 2, 2);
+    vga_mem = (uint16_t *)VGA_MEM_BASE;
+    vga_base_addr = (uint16_t *)VGA_MEM_BASE;
+    framebuffer = (struct fb_char *)VGA_MEM_BASE;
+    vga_cursor_reset();
+    vga_clear();
+    vga_puts(banner, 12, 0, 0);
+    vga_puts("DUPA\0", 5, 2, 2);
 }
 
 void vga_clear() {
-        uint8_t color = VGA_COLOR(VGA_BLACK, VGA_WHITE);
-        for(size_t y = 0; y < VGA_HEIGHT; y++) {
-                for(size_t x = 0; x < VGA_WIDTH; x++) {
-						vga_putch_at(' ', y , x);
-                }
-        }
+    uint8_t color = VGA_COLOR(VGA_BLACK, VGA_WHITE);
+    for(size_t y = 0; y < VGA_HEIGHT; y++) {
+            for(size_t x = 0; x < VGA_WIDTH; x++) {
+                    vga_putch_at(' ', y , x);
+            }
+    }
 }
 
 void vga_putch_at(unsigned char ch, unsigned short y, unsigned short x) {
